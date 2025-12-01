@@ -4,12 +4,12 @@
 #define MIN_WORD_LENGTH 2
 #define MAX_HASH_VALUE 54
 
-static TokenType get_token ( char* lexeme, unsigned int size );
-static void put ( char* lexeme, unsigned int size, TokenType type );
+static TokenType get_token ( const char* lexeme, unsigned int size );
+static void put ( const char* lexeme, unsigned int size, TokenType type );
 
 /* gperf generated functions */
 static unsigned int hash( register const char *str, register size_t len );
-static const char* in_word_set ( register const char *str, register size_t len );
+static Tuple in_word_set ( register const char *str, register size_t len );
 
 static Bucket KBucket[MAX_HASH_VALUE + 1];
 
@@ -56,22 +56,21 @@ Map InitMap ( void ) {
     return map;
 }
 
-void put ( char* lexeme, unsigned int size, TokenType type ) {
-    unsigned int index = hash(lexeme, size);
+void put ( const char* lexeme, const unsigned int size, const TokenType type ) {
+    const unsigned int index = hash(lexeme, size);
     memcpy(KBucket[index].lBuffer, lexeme, (size + 1) * sizeof(char));
     KBucket[index].type = type;
 }
 
-TokenType get_token ( char* lexeme, unsigned int size ) {
-    const char* s = in_word_set(lexeme, size);
-    if (!s || *s == '\0') return ERROR;
-    unsigned int index = hash(lexeme, size);
-    return KBucket[index].type;
+TokenType get_token ( const char* lexeme, const unsigned int size ) {
+    const Tuple t = in_word_set(lexeme, size);
+    if (!t.s || *t.s == '\0') return ERROR;
+    return KBucket[t.hash_value].type;
 }
 
 /* Static search set implemented with perfect hash function generated with gperf */
 
-static unsigned int hash(register const char *str, register size_t len) {
+static unsigned int hash(register const char *str, const register size_t len) {
 
     static const unsigned char asso_values[] = {
             55, 55, 55, 55, 55, 55, 55, 55, 55, 55,
@@ -117,7 +116,7 @@ static unsigned int hash(register const char *str, register size_t len) {
     return hash_val;
 }
 
-const char *in_word_set(register const char *str, register size_t len) {
+Tuple in_word_set(register const char *str, const register size_t len) {
     static const char *const wordlist[] = {
             "", "", "",
             "for",
@@ -169,12 +168,12 @@ const char *in_word_set(register const char *str, register size_t len) {
     };
 
     if ( len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH ) {
-        register unsigned int key = hash(str, len);
+        const register unsigned int key = hash(str, len);
         if ( key <= MAX_HASH_VALUE ) {
             register const char *s = wordlist[key];
             if ( *str == *s && !strcmp(str + 1, s + 1))
-                return s;
+                return (Tuple){ s, key };
         }
     }
-    return 0;
+    return (Tuple){NULL, 0};
 }

@@ -10,4 +10,6 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern void Error ( const char* message );
+
 #endif //GRAMMAR_BASE_H

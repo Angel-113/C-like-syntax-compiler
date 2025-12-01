@@ -20,7 +20,7 @@ static bool match(char expected) {
 }
 
 static char advance(void) {
-    if (buffer[pos] == '\0') return '\0'; /* End of file */
+    if (buffer[pos] == '\0') return '\0'; /* End of a file */
     char c = buffer[++pos];
     if (c == '\n') line++;
     return c;

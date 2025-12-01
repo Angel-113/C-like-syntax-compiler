@@ -7,12 +7,12 @@
 #include "base.h"
 
 typedef enum {
-    /* One-character tokens : Tokens de un caracter */
+    /* One-character tokens: Tokens de un caracter */
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
     COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR, BIT_AND,
-    BIT_OR, X_OR, NOT, DOTS, LEFT_BRACKET, RIGHT_BRACKET, QUESTION,
+    BIT_OR, X_OR, NOT, DOTS, LEFT_BRACKET, RIGHT_BRACKET, QUESTION, BIT_NOT, PERCENTAGE,
 
-    /* Two-character tokens : Tokens de dos caracteres */
+    /* Two-character tokens: Tokens de dos caracteres */
     EQUAL, EQUAL_EQUAL,
     GREATER, GREATER_EQUAL,
     LESSER, LESSER_EQUAL,
@@ -20,12 +20,13 @@ typedef enum {
     SLASH_EQUAL, STAR_EQUAL,
     AND, BIT_AND_EQUAL, OR, BIT_OR_EQUAL,
     ARROW, X_OR_EQUAL, DIFFERENT,
-    PLUS_PLUS, MINUS_MINUS,
+    PLUS_PLUS, MINUS_MINUS, LEFT_SHIFT,
+    RIGHT_SHIFT, LEFT_SHIFT_EQUAL, RIGHT_SHIFT_EQUAL,
 
-    /* Literals : Literal (valores) */
+    /* Literals: Literal (valores) */
     IDENTIFIER, STRING, CHARACTER, NUMBER,
 
-    /* Keywords : Palabras Clave */
+    /* Keywords: Palabras Clave */
     AUTO, BREAK, CASE, CHAR, CONST,
     CONTINUE, DEFAULT, DO, DOUBLE, ELSE,
     ENUM, EXTERN, FLOAT, FOR, GOTO,
@@ -34,7 +35,7 @@ typedef enum {
     STATIC, STRUCT, SWITCH, TYPEDEF, UNION,
     UNSIGNED, VOID, VOLATILE, WHILE,
 
-    /* Special tokens : Tokens especiales */
+    /* Special tokens: Tokens especiales */
     ERROR, END
 } TokenType;
 
@@ -48,7 +49,7 @@ typedef struct Token {
 } Token;
 
 extern Token* __TokenList; /* List of Tokens */
-extern unsigned int __Tokens; /* current amount of tokens */
+extern unsigned int __Tokens; /* current number of tokens */
 extern unsigned int __CurrentSize; /* Initialization size for TokenList */
 
 extern void printToken ( Token t );

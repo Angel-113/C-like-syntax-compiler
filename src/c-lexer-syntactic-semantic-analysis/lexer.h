@@ -6,9 +6,9 @@
 #define GRAMMAR_LEXER_H
 
 #include "base.h"
-#include "token.h"
-#include "scanner.h"
-#include "keywords.h"
+#include "token/token.h"
+#include "scanner/scanner.h"
+#include "keywords/keywords.h"
 
 #define error_at( str, attr1 ) \
     fprintf(stderr, (str), (attr1)); \
